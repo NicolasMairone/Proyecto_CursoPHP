@@ -1,10 +1,10 @@
 <?php
     include_once 'encabezado1.php';
 	include 'conexion.php';
-	mysqli_select_db($conexion,"bdd_cooperativa_taxis");
-	$consulta=mysqli_query($conexion, "Select * from taxi where cod_tax=").$_GET['cod'];
-	$consultauno=mysqli_query($conexion, "Delete from taxi where cod_tax=").$_GET['cod'];
-	$fila=mysqli_fetch_array($consulta);
+	mysqli_select_db(mysql: $conexion, database: "bdd_cooperativa_taxis");
+	$consulta = mysqli_query(mysql: $conexion, query: "SELECT * FROM taxi WHERE cod_tax=" . $_GET['cod']);
+	$consultauno = mysqli_query(mysql: $conexion, query: "DELETE FROM taxi WHERE cod_tax=" . $_GET['cod']);
+	$fila = mysqli_fetch_array(result: $consulta);
 	echo '
 	    <body>
 		    <h1 class="register-title">SE HA ELIMINADO EL SIGUIENTE TAXI</h1>

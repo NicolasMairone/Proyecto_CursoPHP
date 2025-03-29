@@ -4,14 +4,14 @@
 		//guardar en la bdd
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
 		$pla=$_POST['pla_tax'];
 		$mar=$_POST['mar_tax'];
 		$mod=$_POST['mod_tax'];
-		mysqli_query($conexion,"insert into taxi values(null,'".$pla."','".$mar."','".$mod."')") or die("Error al
-		Guardar".mysqli_error($conexion));
+		mysqli_query(mysql: $conexion,query: "insert into taxi values(null,'".$pla."','".$mar."','".$mod."')") or die("Error al
+		Guardar".mysqli_error(mysql: $conexion));
 		include_once 'mantenimiento_taxi.php';
-		mysqli_close($conexion);
+		mysqli_close(mysql: $conexion);
 	}else{ //crear el formulario
 		echo'
 		    <body>

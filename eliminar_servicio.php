@@ -1,10 +1,10 @@
 <?php
     include_once 'encabezado1.php';
 	include 'conexion.php';
-	mysqli_select_db($conexion,"bdd_cooperativa_taxis");
-	$consulta=mysqli_query($conexion, "Select * from servicio where cod_ser=".$_GET['cod']) or die ("Error al seleccionar".mysqli_error($conexion));
-	$consultauno=mysqli_query($conexion, "Delete from servicio where cod_ser=".$_GET['cod']) or die ("Error al eliminar".mysqli_error($conexion));
-	$fila=mysqli_fetch_array($consulta);
+	mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
+	$consulta=mysqli_query(mysql: $conexion, query: "Select * from servicio where cod_ser=".$_GET['cod']) or die ("Error al seleccionar".mysqli_error($conexion));
+	$consultauno=mysqli_query(mysql: $conexion, query: "Delete from servicio where cod_ser=".$_GET['cod']) or die ("Error al eliminar".mysqli_error($conexion));
+	$fila=mysqli_fetch_array(result: $consulta);
 	echo '
 	    <body>
 		    <h1 class="register-title">SE HA ELIMINADO EL SIGUIENTE SERVICIO</h1>

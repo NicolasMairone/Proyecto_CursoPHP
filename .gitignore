@@ -1,0 +1,44 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de entorno y configuración sensibles
+.env
+*.env
+
+# Archivos de configuración específicos del IDE
+.vscode/
+.idea/
+
+# Archivos de logs y temporales
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Archivos de caché de PHP
+*.cache
+
+# Archivos de sesión de PHP
+sess_*
+
+# Archivos de configuración del servidor
+.htaccess
+.htpasswd
+
+# Dependencias de Node.js 
+node_modules/
+package-lock.json
+
+# Archivos generados por Composer
+vendor/
+composer.lock
+
+# Archivos de respaldo o temporales
+*.bak
+*.old
+*.orig
+
+# Archivos subidos por usuarios 
+uploads/

@@ -4,17 +4,17 @@
 		//guardar en la bdd
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
 		$ced=$_POST['ced_cho'];
 		$nom=$_POST['nom_cho'];
 		$ape=$_POST['ape_cho'];
 		$dir=$_POST['dir_cho'];
 		$tel=$_POST['tel_cho'];
 		$lic=$_POST['lic_cho'];
-		mysqli_query($conexion,"insert into chofer values(null,'".$ced."','".$nom."','".$ape."','".$dir."','".$tel."','".$lic."')") or die("Error al
-		Guardar".mysqli_error($conexion));
+		mysqli_query(mysql: $conexion,query: "insert into chofer values(null,'".$ced."','".$nom."','".$ape."','".$dir."','".$tel."','".$lic."')") or die("Error al
+		Guardar".mysqli_error(mysql: $conexion));
 		include_once 'mantenimiento_chofer.php';
-		mysqli_close($conexion);
+		mysqli_close(mysql: $conexion);
 	}else{ //crear el formulario
 		echo'
 		    <body>

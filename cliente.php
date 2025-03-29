@@ -4,16 +4,16 @@
 		//guardar en la bdd
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
 		$ced=$_POST['ced_cli'];
 		$nom=$_POST['nom_cli'];
 		$ape=$_POST['ape_cli'];
 		$tel=$_POST['tel_cli'];
 		$ema=$_POST['ema_cli'];
-		mysqli_query($conexion,"insert into cliente values(null,'".$ced."','".$nom."','".$ape."','".$tel."','".$ema."')") or die("Error al
-		Guardar".mysqli_error($conexion));
+		mysqli_query(mysql: $conexion,query: "insert into cliente values(null,'".$ced."','".$nom."','".$ape."','".$tel."','".$ema."')") or die("Error al
+		Guardar".mysqli_error(mysql: $conexion));
 		include_once 'mantenimiento_cliente.php';
-		mysqli_close($conexion);
+		mysqli_close(mysql: $conexion);
 	}else{ //crear el formulario
 		echo'
 		    <body>

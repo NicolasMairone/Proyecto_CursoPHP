@@ -1,22 +1,45 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en-US">
-<head>
-	<meta charset="UTF-8">
-	<title>LOGIN</title>
-	<meta name="viewport" content="width=device-width, user-scalable=no, intial-scale=1, 
-	maximum-scale=1, minimum-scale=1">
-	<link rel="stylesheet" href="css/estlogin.css">
-</head>
-<body>
-	<form action="validarlog.php" method="post">
-	    <center>
-		    <h2>INGRESO-LOGIN<h2>
-		    <input type="text" placeholder="&#128526; Usuario/User (*)" name="usuario">
-		    <input type="text" placeholder="&#128231; Email (*)" name="email">
-		    <input type="password" placeholder="&#128272;Contraseña/Password (*)" name="clave">
-		    <input type="submit" value="Ingresar">
-			<link rel="stylesheet" href="css/estilogin.css">
-		</center>
-	</form>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Agencia de Taxis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/estilogin.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="login-container">
+      <form action="validarlog.php" method="post" class="login-form">
+        <h2>Login</h2>
+        <div class="form-group">
+          <i class="fas fa-user icon"></i>
+          <input
+            type="text"
+            placeholder="Usuario/User (*)"
+            name="usuario"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <i class="fas fa-envelope icon"></i>
+          <input type="email" placeholder="Email (*)" name="email" required />
+        </div>
+        <div class="form-group">
+          <i class="fas fa-lock icon"></i>
+          <input
+            type="password"
+            placeholder="Contraseña/Password (*)"
+            name="clave"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Ingresar" class="btn-submit" />
+        </div>
+      </form>
+    </div>
+  </body>
 </html>

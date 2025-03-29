@@ -1,10 +1,10 @@
 <?php
     include_once 'encabezado1.php';
 	include 'conexion.php';
-	mysqli_select_db($conexion,"bdd_cooperativa_taxis");
-	$consulta=mysqli_query($conexion, "Select * from cliente where cod_cli=".$_GET['cod']);
-	$consultauno=mysqli_query($conexion, "Delete from cliente where cod_cli=".$_GET['cod']);
-	$fila=mysqli_fetch_array($consulta);
+	mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
+	$consulta=mysqli_query(mysql: $conexion, query: "Select * from cliente where cod_cli=".$_GET['cod']);
+	$consultauno=mysqli_query(mysql: $conexion, query: "Delete from cliente where cod_cli=".$_GET['cod']);
+	$fila=mysqli_fetch_array(result: $consulta);
 	echo '
 	    <body>
 		    <h1 class="register-title">SE HA ELIMINADO EL SIGUIENTE CLIENTE</h1>

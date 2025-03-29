@@ -4,7 +4,7 @@
 		//guardar en la bdd
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
 		$fec=$_POST['fec_ser'];
 		$des=$_POST['des_ser'];
 		$kil=$_POST['kil_ser'];
@@ -12,8 +12,8 @@
 		$cho=$_POST['cho_ser'];
 		$tax=$_POST['tax_ser'];
 		$cli=$_POST['cli_ser'];
-		mysqli_query($conexion,"insert into servicio values(null,'".$fec."','".$des."','".$kil."','".$pre."','".$cho."','".$tax."','".$cli."')") or die("Error al
-		Guardar".mysqli_error($conexion));
+		mysqli_query(mysql: $conexion,query: "insert into servicio values(null,'".$fec."','".$des."','".$kil."','".$pre."','".$cho."','".$tax."','".$cli."')") or die("Error al
+		Guardar".mysqli_error(mysql: $conexion));
 		include_once 'mantenimiento_servicio.php';
 		mysqli_close($conexion);
 	}else{ //crear el formulario

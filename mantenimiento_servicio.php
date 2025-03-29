@@ -1,7 +1,7 @@
 <?php
     include_once 'encabezado1.php';
 	include 'conexion.php';
-	$consulta=mysqli_query($conexion,"Select * from servicio");
+	$consulta=mysqli_query(mysql: $conexion,query: "Select * from servicio");
 	echo '<center>';
 	    echo '<br>'.'<table border=1 bgcolor="white" align="center">';
 	        echo '<tr>';
@@ -19,7 +19,7 @@
 		        echo '<th colspan=2>'.'<b/>'.'ACCION'.'</th>';
 	        echo '</tr>';
 			
-	        while($fila=mysqli_fetch_array($consulta)){
+	        while($fila=mysqli_fetch_array(result: $consulta)){
 		        echo '<tr>';
 		            echo '<td>'.$fila[0].'</td>';
 		            echo '<td>'.$fila[1].'</td>';

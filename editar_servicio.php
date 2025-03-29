@@ -4,7 +4,7 @@
 		//guardar en la bdd
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
 		$cod=$_POST['cod_ser'];
 		$fec=$_POST['fec_ser'];
 		$des=$_POST['des_ser'];
@@ -13,10 +13,10 @@
 		$cho=$_POST['cho_ser'];
 		$tax=$_POST['tax_ser'];
 		$cli=$_POST['cli_ser'];
-		mysqli_query($conexion,"update servicio set fec_ser='".$fec."' and des_ser='".$des."' and kil_ser='".$kil."' and pre_ser='".$pre."' and cho_ser='".$cho."' and tax_ser='".$tax."' and cli_ser='".$cli."' where cod_ser='".$cod."'") or
-		    die("Error al Guardar".mysqli_error($conexion));
+		mysqli_query(mysql: $conexion,query: "update servicio set fec_ser='".$fec."' and des_ser='".$des."' and kil_ser='".$kil."' and pre_ser='".$pre."' and cho_ser='".$cho."' and tax_ser='".$tax."' and cli_ser='".$cli."' where cod_ser='".$cod."'") or
+		    die("Error al Guardar".mysqli_error(mysql: $conexion));
 		include_once 'mantenimiento_servicio.php';
-		while ($fila=mysqli_fetch_array($consulta)){
+		while ($fila=mysqli_fetch_array(result: $consulta)){
 			echo '<tr>';
 			    echo '<td>'.$fila[0].'</td>';
 				echo '<td>'.$fila[1].'</td>';
@@ -29,7 +29,7 @@
 			echo '</tr>';
 		}
 		echo '<br>';
-	    mysqli_close($conexion);
+	    mysqli_close(mysql: $conexion);
 	    echo '<br>';
 	    echo '<br>';
 	    echo '
@@ -37,9 +37,9 @@
 	    ';
 	}else{ //crear el formulario
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
-		$consulta=mysqli_query($conexion,"Select * from servicio where cod_ser=".$_GET['cod']);
-		$fila=mysqli_fetch_array($consulta);
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
+		$consulta=mysqli_query(mysql: $conexion,query: "Select * from servicio where cod_ser=".$_GET['cod']);
+		$fila=mysqli_fetch_array(result: $consulta);
 		echo '
 		    <body bgcolor="white">
 				<h1 class="register-title">EDITAR SERVICIO</h1>

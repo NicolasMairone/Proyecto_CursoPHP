@@ -4,17 +4,17 @@
 		//guardar en la bdd
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
 		$cod=$_POST['cod_cli'];
 		$ced=$_POST['ced_cli'];
 		$nom=$_POST['nom_cli'];
 		$ape=$_POST['ape_cli'];
 		$tel=$_POST['tel_cli'];
 		$ema=$_POST['ema_cli'];
-		mysqli_query($conexion,"update cliente set ced_cli='".$ced."',nom_cli='".$nom."',ape_cli='".$ape."',tel_cli='".$tel."',ema_cli='".$ema."' where cod_cli='".$cod."'") or
-		    die("Error al Guardar".mysqli_error($conexion));
+		mysqli_query(mysql: $conexion,query: "update cliente set ced_cli='".$ced."',nom_cli='".$nom."',ape_cli='".$ape."',tel_cli='".$tel."',ema_cli='".$ema."' where cod_cli='".$cod."'") or
+		    die("Error al Guardar".mysqli_error(mysql: $conexion));
 		include_once 'mantenimiento_cliente.php';
-		while ($fila=mysqli_fetch_array($consulta)){
+		while ($fila=mysqli_fetch_array(result: $consulta)){
 			echo '<tr>';
 			    echo '<td>'.$fila[0].'</td>';
 				echo '<td>'.$fila[1].'</td>';
@@ -25,7 +25,7 @@
 			echo '</tr>';
 		}
 		echo '<br>';
-	    mysqli_close($conexion);
+	    mysqli_close(mysql: $conexion);
 	    echo '<br>';
 	    echo '<br>';
 	    echo '
@@ -33,9 +33,9 @@
 	    ';
 	}else{ //crear el formulario
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
-		$consulta=mysqli_query($conexion,"Select * from cliente where cod_cli=".$_GET['cod']);
-		$fila=mysqli_fetch_array($consulta);
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
+		$consulta=mysqli_query(mysql: $conexion,query: "Select * from cliente where cod_cli=".$_GET['cod']);
+		$fila=mysqli_fetch_array(result: $consulta);
 		echo '
 		    <body bgcolor="white">
 				<h1 class="register-title">EDITAR CLIENTE</h1>

@@ -4,15 +4,15 @@
 		//guardar en la bdd
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
 		$cod=$_POST['cod_tax'];
 		$pla=$_POST['pla_tax'];
 		$mar=$_POST['mar_tax'];
 		$mod=$_POST['mod_tax'];
-		mysqli_query($conexion,"update taxi set pla_tax='".$pla."' and mar_tax='".$mar."' and mod_tax='".$mod."' where cod_tax='".$cod."'") or
-		    die("Error al Guardar".mysqli_error($conexion));
+		mysqli_query(mysql: $conexion,query: "update taxi set pla_tax='".$pla."' and mar_tax='".$mar."' and mod_tax='".$mod."' where cod_tax='".$cod."'") or
+		    die("Error al Guardar".mysqli_error(mysql: $conexion));
 		include_once 'mantenimiento_taxi.php';
-		while ($fila=mysqli_fetch_array($consulta)){
+		while ($fila=mysqli_fetch_array(result: $consulta)){
 			echo '<tr>';
 			    echo '<td>'.$fila[0].'</td>';
 				echo '<td>'.$fila[1].'</td>';
@@ -21,7 +21,7 @@
 			echo '</tr>';
 		}
 		echo '<br>';
-	    mysqli_close($conexion);
+	    mysqli_close(mysql: $conexion);
 	    echo '<br>';
 	    echo '<br>';
 	    echo '
@@ -29,9 +29,9 @@
 	    ';
 	}else{ //crear el formulario
 		include 'conexion.php';
-		mysqli_select_db($conexion,"bdd_cooperativa_taxis");
-		$consulta=mysqli_query($conexion,"Select * from taxi where cod_tax=".$_GET['cod']);
-		$fila=mysqli_fetch_array($consulta);
+		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
+		$consulta=mysqli_query(mysql: $conexion,query: "Select * from taxi where cod_tax=".$_GET['cod']);
+		$fila=mysqli_fetch_array(result: $consulta);
 		echo '
 		    <body bgcolor="white">
 				<h1 class="register-title">EDITAR TAXI</h1>

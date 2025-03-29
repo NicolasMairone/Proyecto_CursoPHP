@@ -5,10 +5,10 @@
 	//conecto con la BDD
 	include 'conexion.php';
 	$consulta="Select * from usuarios where nom_usu='$usuario' and ema_usu='$email' and pas_usu='$clave'";
-	$resultado=mysqli_query($conexion, $consulta);
-	$fila=mysqli_num_rows($resultado);
+	$resultado=mysqli_query(mysql: $conexion, query: $consulta);
+	$fila=mysqli_num_rows(result: $resultado);
 	if($fila>0){
-		header("location:principal.php");
+		header(header: "location:principal.php");
 	}else{
 		echo '
 		    <center>
@@ -16,6 +16,6 @@
 			</center>
 		';
 	}
-	mysqli_free_result($resultado);
-	mysqli_close($conexion);
+	mysqli_free_result(result: $resultado);
+	mysqli_close(mysql: $conexion);
 ?>
