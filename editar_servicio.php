@@ -1,94 +1,179 @@
 <?php
-    include_once 'encabezado1.php';
-	if(isset($_POST['fec_ser'])==true){
-		//guardar en la bdd
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
-		include 'conexion.php';
-		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
-		$cod=$_POST['cod_ser'];
-		$fec=$_POST['fec_ser'];
-		$des=$_POST['des_ser'];
-		$kil=$_POST['kil_ser'];
-		$pre=$_POST['pre_ser'];
-		$cho=$_POST['cho_ser'];
-		$tax=$_POST['tax_ser'];
-		$cli=$_POST['cli_ser'];
-		mysqli_query(mysql: $conexion,query: "update servicio set fec_ser='".$fec."' and des_ser='".$des."' and kil_ser='".$kil."' and pre_ser='".$pre."' and cho_ser='".$cho."' and tax_ser='".$tax."' and cli_ser='".$cli."' where cod_ser='".$cod."'") or
-		    die("Error al Guardar".mysqli_error(mysql: $conexion));
-		include_once 'mantenimiento_servicio.php';
-		while ($fila=mysqli_fetch_array(result: $consulta)){
-			echo '<tr>';
-			    echo '<td>'.$fila[0].'</td>';
-				echo '<td>'.$fila[1].'</td>';
-				echo '<td>'.$fila[2].'</td>';
-				echo '<td>'.$fila[3].'</td>';
-				echo '<td>'.$fila[4].'</td>';
-				echo '<td>'.$fila[5].'</td>';
-				echo '<td>'.$fila[6].'</td>';
-				echo '<td>'.$fila[7].'</td>';
-			echo '</tr>';
-		}
-		echo '<br>';
-	    mysqli_close(mysql: $conexion);
-	    echo '<br>';
-	    echo '<br>';
-	    echo '
-	        <link href="css/mostros_datos.css" type="text/css" rel="stylesheet" media="all" />
-	    ';
-	}else{ //crear el formulario
-		include 'conexion.php';
-		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
-		$consulta=mysqli_query(mysql: $conexion,query: "Select * from servicio where cod_ser=".$_GET['cod']);
-		$fila=mysqli_fetch_array(result: $consulta);
-		echo '
-		    <body bgcolor="white">
-				<h1 class="register-title">EDITAR SERVICIO</h1>
-				<form name="servicio" class="register" action="editar_servicio.php" method="post">
-				    <center>
-					    <table border="0" style="margin: 0 auto;">
-						    <tr>
-							   <td style="text-align: center;"><b><font color="000000"> Codigo: </b> </td>
-								<td> <input type="text name="cod_ser" value="'.$fila[0].'" readonly></td>
-							</tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Fecha: </b> </td>
-							    <td> <input type="text" name="fec_ser" value="'.$fila[1].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Destino: </b> </td>
-							    <td> <input type="text" name="des_ser" value="'.$fila[2].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Kilometros: </b> </td>
-							    <td> <input type="text" name="kil_ser" value="'.$fila[3].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Precio: </b> </td>
-							    <td> <input type="text" name="pre_ser" value="'.$fila[4].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Chofer: </b> </td>
-							    <td> <input type="text" name="cho_ser" value="'.$fila[5].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Taxi: </b> </td>
-							    <td> <input type="text" name="tax_ser" value="'.$fila[6].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Cliente: </b> </td>
-							    <td> <input type="text" name="cli_ser" value="'.$fila[7].'"></td>
-						    </tr>
-							<tr>
-							    <td>
-								</td>
-								<td><input type="submit" class="button" name="b_guardar" value="GUARDAR"></td>
-							</tr>
-						</table>
-					</center>
-				</form>
-			    <link href="css/ingreso_datos.css" type="text/css" rel="stylesheet" media="all" />
-			</body>
-			<br>
-		';
-	}
+include_once 'encabezado1.php';
+
+if (isset($_POST['id'])) {
+    // Actualizar los datos del servicio
+    include 'conexion.php';
+    mysqli_select_db($conexion, "bdd_cooperativa_taxis");
+
+    $id = $_POST['id'];
+    $usuario_id = $_POST['usuario_id'];
+    $taxi_id = $_POST['taxi_id'];
+    $destino = $_POST['destino'];
+    $fecha = $_POST['fecha'];
+    $tipo_viaje = $_POST['tipo_viaje'];
+    $descripcion = $_POST['descripcion'];
+
+    $query = "UPDATE viajes 
+              SET usuario_id='$usuario_id', taxi_id='$taxi_id', destino='$destino', fecha='$fecha', tipo_viaje='$tipo_viaje', descripcion='$descripcion' 
+              WHERE id='$id'";
+
+    if (mysqli_query($conexion, $query)) {
+        header("Location: mantenimiento_servicio.php");
+        exit();
+    } else {
+        echo '<p>Error al actualizar: ' . mysqli_error($conexion) . '</p>';
+    }
+
+    mysqli_close($conexion);
+
+} else {
+    // Mostrar el formulario de edición
+    include 'conexion.php';
+    mysqli_select_db($conexion, "bdd_cooperativa_taxis");
+
+    $id = $_GET['id'];
+    $query = "SELECT * FROM viajes WHERE id='$id'";
+    $result = mysqli_query($conexion, $query);
+
+    if ($fila = mysqli_fetch_assoc($result)) {
+        // Obtener los clientes registrados
+        $cliente_query = mysqli_query($conexion, "SELECT id, CONCAT(nombre, ' ', apellido) AS nombre_completo FROM cliente");
+        $cliente_options = '';
+        while ($cliente = mysqli_fetch_assoc($cliente_query)) {
+            $selected = $cliente['id'] == $fila['usuario_id'] ? 'selected' : '';
+            $cliente_options .= '<option value="' . $cliente['id'] . '" ' . $selected . '>' . $cliente['nombre_completo'] . '</option>';
+        }
+
+        // Obtener los taxis registrados
+        $taxi_query = mysqli_query($conexion, "SELECT id, placa FROM taxis");
+        $taxi_options = '';
+        while ($taxi = mysqli_fetch_assoc($taxi_query)) {
+            $selected = $taxi['id'] == $fila['taxi_id'] ? 'selected' : '';
+            $taxi_options .= '<option value="' . $taxi['id'] . '" ' . $selected . '>' . $taxi['placa'] . '</option>';
+        }
+
+        echo '
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="css/styles.css">
+            <title>Editar Servicio</title>
+            <style>
+                .page-container {
+                    width: 90%;
+                    max-width: 900px;
+                    margin: 20px auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .form-container {
+                    max-width: 860px; 
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                }
+
+                .form-container select, .form-container input, .form-container textarea {
+                    padding: 10px;
+                    font-size: 1rem;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+
+                .button-group {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center; /* Asegura que los botones estén alineados verticalmente */
+                }
+
+                .btn-submit{
+                    padding: 10px 20px; /* Asegura que ambos botones tengan el mismo tamaño */
+                    font-size: 1rem;
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 5px;
+                    width: 48%; /* Ambos botones ocupan el mismo ancho */
+                    text-align: center;
+                    height: 80px; /* Forza la misma altura para ambos botones */
+                }
+
+                .btn-submit {
+                    background-color: #00703c;
+                }
+
+                .btn-submit:hover {
+                    background-color: #005a2e;
+                }
+
+                .btn-reset {
+					font-size: 1.3rem;
+					margin-top: 20px;
+					padding: 10px 20px; 
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 5px;
+					font-weight: bold;
+                    width: 20%; /* Ambos botones ocupan el mismo ancho */
+                    text-align: center;
+                    height: 80px; /* Forza la misma altura para ambos botones */
+                    background-color: #cccccc;
+                    cursor: not-allowed; /* Deshabilita el botón */
+                }
+            </style>
+        </head>
+        <body>
+            <div class="page-container">
+                <h1 class="page-title">Editar Servicio</h1>
+                <form name="servicio" class="form-container" action="editar_servicio.php" method="post">
+                    <label for="id">Código:</label>
+                    <input type="text" id="id" name="id" value="' . $fila['id'] . '" readonly style="background-color: #f0f0f0; border: 1px solid #ccc;">
+
+                    <label for="usuario_id">Cliente:</label>
+                    <select id="usuario_id" name="usuario_id" required>
+                        ' . $cliente_options . '
+                    </select>
+
+                    <label for="taxi_id">Taxi:</label>
+                    <select id="taxi_id" name="taxi_id" required>
+                        ' . $taxi_options . '
+                    </select>
+
+                    <label for="destino">Destino:</label>
+                    <input type="text" id="destino" name="destino" value="' . $fila['destino'] . '" required>
+
+                    <label for="fecha">Fecha:</label>
+                    <input type="datetime-local" id="fecha" name="fecha" value="' . date('Y-m-d\TH:i', strtotime($fila['fecha'])) . '" required>
+
+                    <label for="tipo_viaje">Tipo de Viaje:</label>
+                    <select id="tipo_viaje" name="tipo_viaje" required>
+                        <option value="Urbano" ' . ($fila['tipo_viaje'] == 'Urbano' ? 'selected' : '') . '>Urbano</option>
+                        <option value="Interurbano" ' . ($fila['tipo_viaje'] == 'Interurbano' ? 'selected' : '') . '>Interurbano</option>
+                    </select>
+
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" rows="5" required>' . $fila['descripcion'] . '</textarea>
+
+                    <div class="button-group">
+                        <button type="reset" class="btn-reset">Reset</button>
+                        <button type="submit" class="btn-submit">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </body>
+        </html>
+        ';
+    } else {
+        echo '<p>Error: No se encontró el servicio.</p>';
+    }
+
+    mysqli_close($conexion);
+}
 ?>

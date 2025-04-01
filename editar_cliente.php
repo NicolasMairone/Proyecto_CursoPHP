@@ -1,82 +1,147 @@
 <?php
-    include_once 'encabezado1.php';
-	if(isset($_POST['ced_cli'])==true){
-		//guardar en la bdd
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
-		include 'conexion.php';
-		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
-		$cod=$_POST['cod_cli'];
-		$ced=$_POST['ced_cli'];
-		$nom=$_POST['nom_cli'];
-		$ape=$_POST['ape_cli'];
-		$tel=$_POST['tel_cli'];
-		$ema=$_POST['ema_cli'];
-		mysqli_query(mysql: $conexion,query: "update cliente set ced_cli='".$ced."',nom_cli='".$nom."',ape_cli='".$ape."',tel_cli='".$tel."',ema_cli='".$ema."' where cod_cli='".$cod."'") or
-		    die("Error al Guardar".mysqli_error(mysql: $conexion));
-		include_once 'mantenimiento_cliente.php';
-		while ($fila=mysqli_fetch_array(result: $consulta)){
-			echo '<tr>';
-			    echo '<td>'.$fila[0].'</td>';
-				echo '<td>'.$fila[1].'</td>';
-				echo '<td>'.$fila[2].'</td>';
-				echo '<td>'.$fila[3].'</td>';
-				echo '<td>'.$fila[4].'</td>';
-				echo '<td>'.$fila[5].'</td>';
-			echo '</tr>';
-		}
-		echo '<br>';
-	    mysqli_close(mysql: $conexion);
-	    echo '<br>';
-	    echo '<br>';
-	    echo '
-	        <link href="css/mostros_datos.css" type="text/css" rel="stylesheet" media="all" />
-	    ';
-	}else{ //crear el formulario
-		include 'conexion.php';
-		mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
-		$consulta=mysqli_query(mysql: $conexion,query: "Select * from cliente where cod_cli=".$_GET['cod']);
-		$fila=mysqli_fetch_array(result: $consulta);
-		echo '
-		    <body bgcolor="white">
-				<h1 class="register-title">EDITAR CLIENTE</h1>
-				<form name="cliente" class="register" action="editar_cliente.php" method="post">
-				    <center>
-					    <table border="0" style="margin: 0 auto;">
-						    <tr>
-							   <td style="text-align: center;"><b><font color="000000"> Codigo: </b> </td>
-								<td> <input type="text name="cod_cli" value="'.$fila[0].'" readonly></td>
-							</tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Cedula: </b> </td>
-							    <td> <input type="text" name="ced_cli" value="'.$fila[1].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Nombre: </b> </td>
-							    <td> <input type="text" name="nom_cli" value="'.$fila[2].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Apellido: </b> </td>
-							    <td> <input type="text" name="ape_cli" value="'.$fila[3].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Telefono: </b> </td>
-							    <td> <input type="text" name="tel_cli" value="'.$fila[4].'"></td>
-						    </tr>
-							<tr>
-							    <td style="text-align: center;"><b><font color="000000"> Email: </b> </td>
-							    <td> <input type="text" name="ema_cli" value="'.$fila[5].'"></td>
-						    </tr>
-							<tr>
-							    <td>
-								</td>
-								<td><input type="submit" class="button" name="b_guardar" value="GUARDAR"></td>
-							</tr>
-						</table>
-					</center>
-				</form>
-			    <link href="css/ingreso_datos.css" type="text/css" rel="stylesheet" media="all" />
-			</body>
-			<br>
-		';
-	}
+include_once 'encabezado1.php';
+
+if (isset($_POST['id'])) {
+    // Actualizar los datos del cliente
+    include 'conexion.php';
+    mysqli_select_db($conexion, "bdd_cooperativa_taxis");
+
+    $id = $_POST['id'];
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $telefono = $_POST['telefono'];
+    $dni = $_POST['dni'];
+
+    $query = "UPDATE cliente 
+              SET nombre='$nombre', apellido='$apellido', telefono='$telefono', dni='$dni' 
+              WHERE id='$id'";
+
+    if (mysqli_query($conexion, $query)) {
+        header("Location: mantenimiento_cliente.php");
+        exit();  
+    } else {
+        echo '<p>Error al actualizar: ' . mysqli_error($conexion) . '</p>';
+    }
+
+    mysqli_close($conexion);
+} else {
+    // Mostrar el formulario de edición
+    include 'conexion.php';
+    mysqli_select_db($conexion, "bdd_cooperativa_taxis");
+
+    $id = $_GET['id'];
+    $query = "SELECT * FROM cliente WHERE id='$id'";
+    $result = mysqli_query($conexion, $query);
+
+    if ($fila = mysqli_fetch_assoc($result)) {
+        echo '
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="css/styles.css">
+            <title>Editar Cliente</title>
+            <style>
+                .page-container {
+                    width: 90%;
+                    max-width: 900px; 
+                    margin: 20px auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .form-container {
+                    max-width: 860px; 
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                }
+
+                .form-container input {
+                    padding: 10px;
+                    font-size: 1rem;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+
+                .button-group {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center; /* Asegura que los botones estén alineados verticalmente */
+                }
+
+                .btn-submit{
+                    padding: 10px 20px; /* Asegura que ambos botones tengan el mismo tamaño */
+                    font-size: 1rem;
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 5px;
+                    width: 48%; /* Ambos botones ocupan el mismo ancho */
+                    text-align: center;
+                    height: 80px; /* Forza la misma altura para ambos botones */
+                }
+
+                .btn-submit {
+                    background-color: #00703c;
+                }
+
+                .btn-submit:hover {
+                    background-color: #005a2e;
+                }
+
+                .btn-reset {
+					font-size: 1.3rem;
+					margin-top: 20px;
+					padding: 10px 20px; 
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 5px;
+					font-weight: bold;
+                    width: 20%; /* Ambos botones ocupan el mismo ancho */
+                    text-align: center;
+                    height: 80px; /* Forza la misma altura para ambos botones */
+                    background-color: #cccccc;
+                    cursor: not-allowed; /* Deshabilita el botón */
+                }
+            </style>
+        </head>
+        <body>
+            <div class="page-container">
+                <h1 class="page-title">Editar Cliente</h1>
+                <form name="cliente" class="form-container" action="editar_cliente.php" method="post">
+                    <label for="id">Código:</label>
+                    <input type="text" id="id" name="id" value="' . $fila['id'] . '" readonly style="background-color: #f0f0f0; border: 1px solid #ccc;">
+
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" value="' . $fila['nombre'] . '" required>
+
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" value="' . $fila['apellido'] . '" required>
+
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" value="' . $fila['telefono'] . '" required>
+
+                    <label for="dni">DNI:</label>
+                    <input type="text" id="dni" name="dni" value="' . $fila['dni'] . '" required>
+
+                    <div class="button-group">
+                        <button type="reset" class="btn-reset">Reset</button>
+                        <button type="submit" class="btn-submit">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </body>
+        </html>
+        ';
+    } else {
+        echo '<p>Error: No se encontró el cliente.</p>';
+    }
+
+    mysqli_close($conexion);
+}
 ?>

@@ -1,49 +1,106 @@
 <?php
-    include_once 'encabezado1.php';
-	include 'conexion.php';
-	mysqli_select_db(mysql: $conexion,database: "bdd_cooperativa_taxis");
-	$consulta=mysqli_query(mysql: $conexion, query: "Select * from chofer where cod_cho=".$_GET['cod']);
-	$consultauno=mysqli_query(mysql: $conexion, query: "Delete from chofer where cod_cho=".$_GET['cod']);
-	$fila=mysqli_fetch_array(result: $consulta);
-	echo '
-	    <body>
-		    <h1 class="register-title">SE HA ELIMINADO EL SIGUIENTE CHOFER</h1>
-			<center>
-			    <table border="0" style="margin: 0 auto;">
-				    <tr>
-						<td style="text-align: center;"><b><font color="000000"> Codigo: </b> </td>
-						<td> &nbsp; '.$fila[0].'</td>
-					</tr>
-				    <tr>
-						<td style="text-align: center;"><b><font color="000000"> Cedula: </b> </td>
-						<td> &nbsp; '.$fila[1].'</td>
-					</tr>
-					<tr>
-						<td style="text-align: center;"><b><font color="000000"> Nombre: </b> </td>
-						<td> &nbsp; '.$fila[2].'</td>
-					</tr>
-					<tr>
-				        <td style="text-align: center;"><b><font color="000000"> Apellido: </b> </td>
-						<td> &nbsp; '.$fila[3].'</td>
-					</tr>
-					<tr>
-				        <td style="text-align: center;"><b><font color="000000"> Dirección: </b> </td>
-						<td> &nbsp; '.$fila[4].'</td>
-					</tr>
-					<tr>
-				        <td style="text-align: center;"><b><font color="000000"> Telefono: </b> </td>
-						<td> &nbsp; '.$fila[5].'</td>
-					</tr>
-					<tr>
-				        <td style="text-align: center;"><b><font color="000000"> Licencia: </b> </td>
-						<td> &nbsp; '.$fila[6].'</td>
-					</tr>
-					<tr>
-					    <td><a href="principal.php"><br><input type="submit" class="button" name="b_guardar" value="VOLVER"></a></td>
-					</tr>
-				</table>
-			</center>
-			<link href="css/ingreso_datos.css" type="text/css" rel="stylesheet" media="all" />
-		</body>
-	';
+include_once 'encabezado1.php';
+include 'conexion.php';
+
+mysqli_select_db($conexion, "bdd_cooperativa_taxis");
+
+// Obtiene los datos del chofer antes de eliminarlo
+$id = $_GET['id'];
+$consulta = mysqli_query($conexion, "SELECT * FROM chofer WHERE id=$id");
+$fila = mysqli_fetch_array($consulta);
+
+// Elimina el chofer
+$consultauno = mysqli_query($conexion, "DELETE FROM chofer WHERE id=$id");
+
+echo '
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Eliminar Chofer</title>
+    <style>
+        .page-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .page-title {
+            color: #d9534f;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: #00703c;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-back:hover {
+            background-color: #005a2e;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <h1 class="page-title">Chofer Eliminado</h1>
+        <table>
+            <tr>
+                <th>Código</th>
+                <td>' . $fila['id'] . '</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>' . $fila['nombre'] . '</td>
+            </tr>
+            <tr>
+                <th>Apellido</th>
+                <td>' . $fila['apellido'] . '</td>
+            </tr>
+            <tr>
+                <th>Teléfono</th>
+                <td>' . $fila['telefono'] . '</td>
+            </tr>
+            <tr>
+                <th>Licencia</th>
+                <td>' . $fila['licencia'] . '</td>
+            </tr>
+        </table>
+        <a href="mantenimiento_chofer.php" class="btn-back">Volver</a>
+    </div>
+</body>
+</html>
+';
 ?>

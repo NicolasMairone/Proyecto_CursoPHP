@@ -9,6 +9,7 @@ Thumbs.db
 # Archivos de configuración específicos del IDE
 .vscode/
 .idea/
+*.code-workspace
 
 # Archivos de logs y temporales
 *.log
@@ -16,6 +17,8 @@ Thumbs.db
 *.bak
 *.swp
 *.swo
+*.pid
+*.seed
 
 # Archivos de caché de PHP
 *.cache
@@ -26,10 +29,12 @@ sess_*
 # Archivos de configuración del servidor
 .htaccess
 .htpasswd
+web.config
 
 # Dependencias de Node.js 
 node_modules/
 package-lock.json
+yarn.lock
 
 # Archivos generados por Composer
 vendor/
@@ -39,6 +44,31 @@ composer.lock
 *.bak
 *.old
 *.orig
+*.save
 
 # Archivos subidos por usuarios 
 uploads/
+public/uploads/
+storage/uploads/
+
+# Archivos de caché y compilación
+cache/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+storage/logs/
+bootstrap/cache/
+
+# Archivos de pruebas y cobertura
+phpunit.xml
+phpunit.xml.dist
+coverage/
+tests/_output/
+
+# Archivos de herramientas de desarrollo
+.env.testing
+.env.local
+phpstan.neon
+phpstan.neon.dist
+.psalm/
+.psalm-cache/

@@ -1,23 +1,29 @@
 <?php
-    include 'encabezado1.php';
-	echo '
-	    <meta name="tipo" content="text/html;" http-equiv="content-type" charset="utf-8">
-		<body>
-		    <div id="dos">
-		        <table width="75%">
-		            <tr>
-				        <td>
-				        </td>
-				        <td> <font face="tahoma" color="black">
-					        <p><font face="Arial" color="#00Bc2e"><br>¿Quienes somos?</br></font></p>
-					        <br>
-					        <p>La empresa "Tu taxi online" es la principal en la ciudad de Cordoba. Iniciando su actividad 
-							en 2015,actualmente es unas de las paginas mas usadas en Cordoba para pedir taxis,contando con 15.000 clientes.</p>
-					        <br>
-				        </td>
-			        </tr>
-		        </table>
-	        </div>
-	    </body>
-	';
+session_start(); // Inicia la sesión
+if (!isset($_SESSION['nombre_usuario'])) {
+    header("Location: index.html");
+    exit();
+}
+include 'encabezado1.php';
+
+echo '
+    <div id="contenido-principal">
+        <section class="quienes-somos">
+            <h1>¿Quiénes somos?</h1>
+            <p>
+                La empresa <strong>"Tu Taxi Online"</strong> es la principal en la ciudad de Córdoba. 
+                Iniciando su actividad en 2015, actualmente es una de las páginas más usadas en Córdoba para pedir taxis.
+            </p>
+            <p>
+                Con más de 15,000 clientes satisfechos, hemos logrado consolidarnos como la opción preferida para quienes buscan comodidad y eficiencia a la hora de movilizarse por la ciudad. Nuestra plataforma digital ha revolucionado la manera en que los cordobeses solicitan taxis, facilitando el acceso a un transporte confiable con tan solo unos clics.
+            </p>
+            <p>
+                Contamos con una flota moderna y bien equipada, operada por conductores profesionales que garantizan un viaje seguro y placentero. Además, nuestra atención al cliente está disponible las 24 horas del día, brindando asistencia inmediata ante cualquier necesidad o consulta.
+            </p>
+            <p>
+                En "Tu Taxi Online", seguimos innovando y adaptándonos a las necesidades de nuestros usuarios, con el objetivo de ofrecer un servicio que haga de cada viaje una experiencia cómoda y segura. ¡Gracias por confiar en nosotros para llevarte a tu destino!
+            </p>
+        </section>
+    </div>
+';
 ?>
